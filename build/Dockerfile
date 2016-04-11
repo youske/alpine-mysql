@@ -15,11 +15,10 @@ ENV PATH=$PATH \
 
 RUN apk update --no-cache && apk add ${PACKAGE} --no-cache && apk add ${BUILDPACK} --no-cache -t buildpack
 
-RUN mkdir -p /var/lib/mysql && chown -R mysql:mysql /var/lib/mysql && \
-    cd /var/lib/mysql && mysql_install_db --datadir=/var/lib/mysql --user=mysql
+RUN mkdir -p ${MYSQL_DIR} && chown -R mysql:mysql ${MYSQL_DIR} && \
+    cd ${MYSQL_DIR} && mysql_install_db --datadir=${MYSQL_DIR} --user=mysql
 
 COPY my.cnf.tmpl /etc/mysql/my.cnf.tmpl
-COPY entrypoint.sh /docker-entrypoint
 
 EXPOSE 3306
 
